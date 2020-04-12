@@ -23,11 +23,11 @@ Climate App
 
 Bonus
 
-Temperature Analysis
+Trip Average Temp
 - Use the calc_temps function to calculate the min, avg, and max temperatures for my trip using the matching dates from the previous year 
 - Plot the min, avg, and max temperature from my previous query as a bar chart
 
-Daily Average Rainfall
+Daily Normals
 - Calculate the rainfall per weather station using the previous year's matching dates
 - Calculate the daily normals (averages for the min, avg, and max temperatures)
 - Load the list of daily normals into a Pandas DataFrame
