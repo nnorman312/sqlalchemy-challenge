@@ -25,8 +25,8 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 
 # Save reference to the table
-Measurement = Base.classes.measurement
 Station = Base.classes.station
+Measurement = Base.classes.measurement
 
 # Create our session (link) from Python to the DB
 session = Session(engine)
@@ -49,15 +49,14 @@ def welcome():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/<start><br/>"
-        f"/api/v1.0/<start>/<end><br/>"
+        f"/api/v1.0/&lt;start&gt;<br/>"
+        f"/api/v1.0/&lt;start&gt;/&lt;end&gt;"
     )
 
 @app.route("/api/v1.0/precipitation")
 def precipitation():
 
     # Design a query to retrieve the last 12 months of precipitation data and plot the results
-
     # Calculate the date 1 year ago from the last data point in the database
 
     last_data_point = session.query(Measurement.date).order_by(Measurement.date.desc()).first()
@@ -67,14 +66,6 @@ def precipitation():
     filter(Measurement.date >= year_ago, Measurement.prcp != None).\
     order_by(Measurement.date).all()
 
-    # dates_prcp = []
-    
-    # for dtprcp in year_prcp:
-    #     dtprcp_dict = {}
-    #     dtprcp_dict["date"] = dtprcp.date
-    #     dtprcp_dict["prcp"] = dtprcp.prcp
-    #     dates_prcp.append(dtprcp_dict)
-
     return jsonify(dict(year_prcp))
 
 @app.route("/api/v1.0/stations")
@@ -83,12 +74,6 @@ def stations():
     active_stations = session.query(Measurement.station,func.count(Measurement.station)).\
                                group_by(Measurement.station).\
                                order_by(func.count(Measurement.station).desc()).all()
-    
-    # act_sta = []
-    # for st_dict in active_stations:
-    #     stat_dict = {}
-    #     stat_dict["station"] = st_dict.station
-    #     act_sta.append(stat_dict)
 
     return jsonify(dict(active_stations))
 
@@ -166,7 +151,6 @@ def start_end_date(start, end):
 
     return jsonify(temp_dict)
     
-
 
 
 if __name__ == '__main__':
